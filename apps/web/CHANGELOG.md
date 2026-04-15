@@ -1,3 +1,11 @@
+## @hlth/web [0.2.2](https://github.com/koelnr/hlth/compare/@hlth/web@0.2.1...@hlth/web@0.2.2) (2026-04-15)
+
+
+### Bug Fixes
+
+* **web:** align waitlist page heading with new CTA language ([be18112](https://github.com/koelnr/hlth/commit/be18112099855dfe902b84bf51a2fe23f416436d))
+* **web:** sharpen marketing copy for clinic owner conversion ([c9080c0](https://github.com/koelnr/hlth/commit/c9080c0b338bd139f69fc8893566090599ea9448))
+
 ## @hlth/web [0.2.1](https://github.com/koelnr/hlth/compare/@hlth/web@0.2.0...@hlth/web@0.2.1) (2026-04-15)
 
 
