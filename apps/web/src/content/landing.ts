@@ -9,7 +9,7 @@ export const nav = {
     { label: "How it works", href: "#how-it-works" },
     { label: "For doctors", href: "#trust" },
   ],
-  cta: { label: "Get early access", href: "/demo" },
+  cta: { label: "Join the waitlist", href: "/waitlist" },
 };
 
 export const hero = {
@@ -18,7 +18,7 @@ export const hero = {
   subheadline:
     "hlth gives independent doctors and small clinics a clean, organized workspace for appointments, patients, staff, and daily operations — without the complexity of enterprise software.",
   ctas: [
-    { label: "Request early access", href: "/demo", primary: true },
+    { label: "Join the waitlist", href: "/waitlist", primary: true },
     { label: "See how it works", href: "#features", primary: false },
   ],
 };
@@ -140,7 +140,7 @@ export const trust = {
 export const cta = {
   headline: "Ready to simplify your practice?",
   body: "Join the waitlist. Be among the first clinics to get access when we launch.",
-  primary: { label: "Request early access", href: "/demo" },
+  primary: { label: "Join the waitlist", href: "/waitlist" },
   secondary: { label: "Get in touch", href: "mailto:hello@hlth.app" },
 };
 
@@ -153,7 +153,7 @@ export const footer = {
         { label: "Features", href: "#features" },
         { label: "How it works", href: "#how-it-works" },
         { label: "Pricing", href: "#pricing" },
-        { label: "Request demo", href: "/demo" },
+        { label: "Join waitlist", href: "/waitlist" },
       ],
     },
     {
