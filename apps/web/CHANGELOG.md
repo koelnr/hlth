@@ -1,3 +1,10 @@
+## @hlth/web [0.2.1](https://github.com/koelnr/hlth/compare/@hlth/web@0.2.0...@hlth/web@0.2.1) (2026-04-15)
+
+
+### Bug Fixes
+
+* **web:** remove confirmed waitlist page and remove styling from waitlist component ([b846899](https://github.com/koelnr/hlth/commit/b846899ae2e3c99692ef5c8c34a4031bf1720653))
+
 # @hlth/web [0.2.0](https://github.com/koelnr/hlth/compare/@hlth/web@0.1.0...@hlth/web@0.2.0) (2026-04-15)
 
 
