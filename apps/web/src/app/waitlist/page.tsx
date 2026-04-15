@@ -34,11 +34,11 @@ export default function WaitlistPage() {
               Early access
             </div>
             <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-              Join the waitlist
+              Get early access
             </h1>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Be among the first independent practices to get access when we
-              launch. No spam — just your spot in line.
+              We&apos;re onboarding independent practices in early batches. Drop
+              your email and we&apos;ll reach out when your spot opens.
             </p>
           </div>
 
