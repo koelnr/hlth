@@ -44,26 +44,7 @@ export default function WaitlistPage() {
 
           {/* Clerk Waitlist */}
           <div className="flex justify-center">
-            <Waitlist
-              appearance={{
-                elements: {
-                  rootBox: "w-full",
-                  card: "shadow-none border border-border rounded-2xl bg-card p-6 w-full",
-                  headerTitle: "hidden",
-                  headerSubtitle: "hidden",
-                  socialButtonsBlockButton:
-                    "border border-border bg-background hover:bg-muted text-foreground text-sm font-medium rounded-lg h-10",
-                  formFieldInput:
-                    "border border-border bg-background rounded-lg text-sm h-10 text-foreground focus:ring-2 focus:ring-primary/20 focus:border-primary",
-                  formButtonPrimary:
-                    "bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-medium rounded-lg h-10",
-                  footerActionLink: "text-primary hover:text-primary/80",
-                  dividerLine: "bg-border",
-                  dividerText: "text-muted-foreground text-xs",
-                  formFieldLabel: "text-sm font-medium text-foreground",
-                },
-              }}
-            />
+            <Waitlist />
           </div>
         </div>
       </main>
