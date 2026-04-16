@@ -1,3 +1,10 @@
+## @hlth/web [0.3.1](https://github.com/koelnr/hlth/compare/@hlth/web@0.3.0...@hlth/web@0.3.1) (2026-04-16)
+
+
+### Bug Fixes
+
+* **data:** harden multi-tenant foundation against tenancy bypass and unsafe patterns ([5862759](https://github.com/koelnr/hlth/commit/58627599dc04efe33ef92bd3b6faf9848695aa68))
+
 # @hlth/web [0.3.0](https://github.com/koelnr/hlth/compare/@hlth/web@0.2.2...@hlth/web@0.3.0) (2026-04-16)
 
 
