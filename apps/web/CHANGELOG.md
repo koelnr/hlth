@@ -1,3 +1,10 @@
+## @hlth/web [0.4.2](https://github.com/koelnr/hlth/compare/@hlth/web@0.4.1...@hlth/web@0.4.2) (2026-04-16)
+
+
+### Bug Fixes
+
+* **app:** update org switcher and brand name ([e3e920c](https://github.com/koelnr/hlth/commit/e3e920c3ee0989d60a256b773a6be4d7a2a55eb9))
+
 ## @hlth/web [0.4.1](https://github.com/koelnr/hlth/compare/@hlth/web@0.4.0...@hlth/web@0.4.1) (2026-04-16)
 
 
