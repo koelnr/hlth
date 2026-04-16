@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { requireOrganization } from "@/lib/auth/clerk";
 import { listPatientsForOrg } from "@/lib/data/patients";
 import { PageShell } from "@/components/app/page-shell";
@@ -50,10 +51,11 @@ export default async function PatientsPage() {
       title="Patients"
       description="View and manage your clinic's patient records"
       actions={
-        // TODO: wire to create patient flow
-        <Button size="sm" disabled>
-          <Plus className="h-4 w-4 mr-1.5" />
-          Add Patient
+        <Button asChild size="sm">
+          <Link href="/patients/new">
+            <Plus className="h-4 w-4 mr-1.5" />
+            Add Patient
+          </Link>
         </Button>
       }
     >
@@ -77,10 +79,11 @@ export default async function PatientsPage() {
           title="No patients yet"
           description="Add your first patient to begin tracking their care and appointments."
           action={
-            // TODO: wire to create patient flow
-            <Button size="sm" disabled>
-              <Plus className="h-4 w-4 mr-1.5" />
-              Add Patient
+            <Button asChild size="sm">
+              <Link href="/patients/new">
+                <Plus className="h-4 w-4 mr-1.5" />
+                Add Patient
+              </Link>
             </Button>
           }
         />

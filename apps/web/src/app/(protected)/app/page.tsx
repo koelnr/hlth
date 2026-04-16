@@ -82,6 +82,8 @@ async function DashboardData({ orgId }: { orgId: string }) {
     );
   }
 
+  const patientNames = new Map(patients.map((p) => [p.id, p.fullName]));
+
   const todayLabel = new Date().toLocaleDateString("en-US", {
     weekday: "long",
     month: "short",
@@ -137,7 +139,7 @@ async function DashboardData({ orgId }: { orgId: string }) {
                   >
                     <div className="min-w-0">
                       <p className="text-sm font-medium text-foreground truncate">
-                        Patient {appt.patientId.slice(-6)}
+                        {patientNames.get(appt.patientId) ?? `Patient …${appt.patientId.slice(-6)}`}
                       </p>
                       {appt.reason && (
                         <p className="text-xs text-muted-foreground truncate mt-0.5">
@@ -183,7 +185,7 @@ async function DashboardData({ orgId }: { orgId: string }) {
                   >
                     <div className="min-w-0">
                       <p className="text-sm font-medium text-foreground truncate">
-                        Patient {followUp.patientId.slice(-6)}
+                        {patientNames.get(followUp.patientId) ?? `Patient …${followUp.patientId.slice(-6)}`}
                       </p>
                       {followUp.note && (
                         <p className="text-xs text-muted-foreground truncate mt-0.5">

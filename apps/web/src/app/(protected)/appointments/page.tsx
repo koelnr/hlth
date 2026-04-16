@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { requireOrganization } from "@/lib/auth/clerk";
 import { listAppointmentsForOrg } from "@/lib/data/appointments";
 import { PageShell } from "@/components/app/page-shell";
@@ -83,10 +84,11 @@ export default async function AppointmentsPage() {
       title="Appointments"
       description="View and manage scheduled appointments"
       actions={
-        // TODO: wire to schedule appointment flow
-        <Button size="sm" disabled>
-          <Plus className="h-4 w-4 mr-1.5" />
-          Schedule
+        <Button asChild size="sm">
+          <Link href="/appointments/new">
+            <Plus className="h-4 w-4 mr-1.5" />
+            Schedule
+          </Link>
         </Button>
       }
     >
@@ -107,10 +109,11 @@ export default async function AppointmentsPage() {
           title="No appointments yet"
           description="Schedule your first appointment to get started."
           action={
-            // TODO: wire to schedule appointment flow
-            <Button size="sm" disabled>
-              <Plus className="h-4 w-4 mr-1.5" />
-              Schedule Appointment
+            <Button asChild size="sm">
+              <Link href="/appointments/new">
+                <Plus className="h-4 w-4 mr-1.5" />
+                Schedule Appointment
+              </Link>
             </Button>
           }
         />

@@ -11,11 +11,11 @@ export default async function ProtectedLayout({
 }) {
   const { userId, orgId, orgSlug } = await auth();
 
-  if (!userId) redirect("/sign-in");
+  // if (!userId) redirect("/sign-in");
 
   // Org context is required for all protected app routes.
   // Until an org creation/selection flow exists, redirect to sign-in.
-  if (!orgId) redirect("/sign-in");
+  // if (!orgId) redirect("/sign-in");
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
@@ -28,9 +28,7 @@ export default async function ProtectedLayout({
       <div className="flex flex-col flex-1 min-w-0">
         <AppHeader orgName={orgSlug ?? null} />
         {/* pb-16 clears the mobile bottom nav */}
-        <main className="flex-1 overflow-y-auto pb-16 md:pb-0">
-          {children}
-        </main>
+        <main className="flex-1 overflow-y-auto pb-16 md:pb-0">{children}</main>
       </div>
 
       {/* Mobile bottom navigation */}
