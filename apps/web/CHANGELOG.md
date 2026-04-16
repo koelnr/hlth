@@ -1,3 +1,19 @@
+# @hlth/web [0.4.0](https://github.com/koelnr/hlth/compare/@hlth/web@0.3.1...@hlth/web@0.4.0) (2026-04-16)
+
+
+### Bug Fixes
+
+* **auth:** move auth pages to auth group ([888fffd](https://github.com/koelnr/hlth/commit/888fffdf98dd34586cbd07b2f9b97c7c4a460a4f))
+* **middleware:** migrate from middleware.ts to proxy.ts ([ff8c80d](https://github.com/koelnr/hlth/commit/ff8c80da3d8524b443a18b14323335a9b24ed5f2))
+
+
+### Features
+
+* **app:** add create forms and server actions for patients, appointments, and follow-ups ([83e4cd7](https://github.com/koelnr/hlth/commit/83e4cd7cc82f5cfed6086cdcc2b667f4cfbba93a))
+* **app:** add per-route loading skeletons ([1cb1d67](https://github.com/koelnr/hlth/commit/1cb1d678d62dae0bb0db51a95abc090b462bdbcb))
+* **app:** add shared app shell components ([9eaf6e8](https://github.com/koelnr/hlth/commit/9eaf6e8ac5e15977a932c25c7356142791c8b1e7))
+* **app:** wire action buttons and resolve patient names across all list pages ([8ad4118](https://github.com/koelnr/hlth/commit/8ad4118cd9f3b5a4c6b252d3a3841dce81f11cca))
+
 ## @hlth/web [0.3.1](https://github.com/koelnr/hlth/compare/@hlth/web@0.3.0...@hlth/web@0.3.1) (2026-04-16)
 
 
