@@ -1,3 +1,4 @@
+import { brand } from "@/content/landing";
 import { UserButton } from "@clerk/nextjs";
 
 interface AppHeaderProps {
@@ -10,7 +11,7 @@ export function AppHeader({ orgName }: AppHeaderProps) {
       <div>
         {/* Show brand on mobile (sidebar is hidden), org name on desktop */}
         <span className="font-semibold text-foreground text-sm md:hidden">
-          hlth
+          {brand.name}
         </span>
         {orgName && (
           <span className="text-sm text-muted-foreground hidden md:block">

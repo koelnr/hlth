@@ -4,7 +4,8 @@ import { AppHeader } from "@/components/app/app-header";
 import { MobileNav } from "@/components/app/mobile-nav";
 
 export default async function ProtectedLayout({ children }: LayoutProps<"/">) {
-  const { orgId } = await auth();
+  const { orgId, has } = await auth();
+  const hasOrg = has({ role: "org:member" }) || has({ role: "org:admin" });
   const client = await clerkClient();
   const org = await client.organizations.getOrganization({
     organizationId: orgId ?? "",
@@ -14,7 +15,7 @@ export default async function ProtectedLayout({ children }: LayoutProps<"/">) {
     <div className="flex h-screen overflow-hidden bg-background">
       {/* Desktop sidebar — hidden on mobile */}
       <div className="hidden md:flex shrink-0">
-        <AppSidebar orgName={org.name ?? null} />
+        <AppSidebar hasOrg={hasOrg} />
       </div>
 
       {/* Main content area */}

@@ -1,14 +1,11 @@
 "use client";
 
+import { brand } from "@/content/landing";
+import { cn } from "@/lib/utils";
+import { OrganizationSwitcher } from "@clerk/nextjs";
+import { Calendar, ClipboardList, LayoutDashboard, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
-import {
-  LayoutDashboard,
-  Users,
-  Calendar,
-  ClipboardList,
-} from "lucide-react";
 
 const navItems = [
   { href: "/app", label: "Dashboard", icon: LayoutDashboard },
@@ -18,10 +15,10 @@ const navItems = [
 ] as const;
 
 interface AppSidebarProps {
-  orgName?: string | null;
+  hasOrg: boolean;
 }
 
-export function AppSidebar({ orgName }: AppSidebarProps) {
+export function AppSidebar({ hasOrg }: AppSidebarProps) {
   const pathname = usePathname();
 
   return (
@@ -29,19 +26,17 @@ export function AppSidebar({ orgName }: AppSidebarProps) {
       {/* Brand */}
       <div className="h-14 flex items-center px-5 border-b border-sidebar-border shrink-0">
         <span className="font-semibold text-sidebar-foreground tracking-tight text-sm">
-          hlth
+          {brand.name}
         </span>
       </div>
 
       {/* Org context */}
-      {orgName && (
+      {hasOrg && (
         <div className="px-4 py-3 border-b border-sidebar-border shrink-0">
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground mb-0.5">
+          <p className="ml-2 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground mb-1">
             Clinic
           </p>
-          <p className="text-sm font-medium text-sidebar-foreground truncate">
-            {orgName}
-          </p>
+          <OrganizationSwitcher />
         </div>
       )}
 
@@ -61,13 +56,13 @@ export function AppSidebar({ orgName }: AppSidebarProps) {
                 "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                 isActive
                   ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground"
+                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
               )}
             >
               <item.icon
                 className={cn(
                   "h-4 w-4 shrink-0",
-                  isActive ? "text-sidebar-primary" : "text-muted-foreground"
+                  isActive ? "text-sidebar-primary" : "text-muted-foreground",
                 )}
               />
               {item.label}
