@@ -1,3 +1,11 @@
+## @hlth/web [0.4.1](https://github.com/koelnr/hlth/compare/@hlth/web@0.4.0...@hlth/web@0.4.1) (2026-04-16)
+
+
+### Bug Fixes
+
+* **app:** remove redirect login from protected layout ([e7d2d3e](https://github.com/koelnr/hlth/commit/e7d2d3e961cc9b555a7589c885abfc1af0a6b196))
+* **app:** show org name instead of slug on app sidebar and header ([21b0578](https://github.com/koelnr/hlth/commit/21b05788fba4926690c087515cd79c74462b822b))
+
 # @hlth/web [0.4.0](https://github.com/koelnr/hlth/compare/@hlth/web@0.3.1...@hlth/web@0.4.0) (2026-04-16)
 
 
