@@ -48,9 +48,14 @@ export type ClinicProfile = BaseRecord & {
   address?: string;
 };
 
+/**
+ * organizationId is intentionally excluded from all Create inputs.
+ * Repositories accept it as an explicit first parameter so the type system
+ * prevents callers from supplying an arbitrary org value.
+ */
 export type CreateClinicProfileInput = Omit<
   ClinicProfile,
-  "id" | "createdAt" | "updatedAt"
+  "id" | "organizationId" | "createdAt" | "updatedAt"
 >;
 
 export type UpdateClinicProfileInput = Partial<
@@ -75,7 +80,7 @@ export type Patient = BaseRecord & {
 
 export type CreatePatientInput = Omit<
   Patient,
-  "id" | "fullName" | "createdAt" | "updatedAt"
+  "id" | "organizationId" | "fullName" | "createdAt" | "updatedAt"
 >;
 
 export type UpdatePatientInput = Partial<
@@ -101,7 +106,7 @@ export type Appointment = BaseRecord & {
 
 export type CreateAppointmentInput = Omit<
   Appointment,
-  "id" | "createdAt" | "updatedAt"
+  "id" | "organizationId" | "createdAt" | "updatedAt"
 >;
 
 export type UpdateAppointmentInput = Partial<
@@ -125,7 +130,7 @@ export type FollowUp = BaseRecord & {
 
 export type CreateFollowUpInput = Omit<
   FollowUp,
-  "id" | "createdAt" | "updatedAt"
+  "id" | "organizationId" | "createdAt" | "updatedAt"
 >;
 
 export type UpdateFollowUpInput = Partial<
@@ -152,7 +157,7 @@ export type ClinicMembershipProfile = BaseRecord & {
 
 export type CreateClinicMembershipInput = Omit<
   ClinicMembershipProfile,
-  "id" | "createdAt" | "updatedAt"
+  "id" | "organizationId" | "createdAt" | "updatedAt"
 >;
 
 export type UpdateClinicMembershipInput = Partial<

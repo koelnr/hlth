@@ -9,16 +9,19 @@
 import type { DocumentSnapshot, Timestamp } from "firebase-admin/firestore";
 
 /**
- * Convert a Firestore Timestamp (or anything Date-like) to a JS Date.
- * Falls back to current time if the value is missing or unrecognized —
- * this shouldn't happen in practice but prevents hard crashes on bad data.
+ * Convert a Firestore Timestamp to a JS Date.
+ * Throws if the value is missing or unrecognized — a missing date field
+ * indicates a write bug and must never silently produce a wrong timestamp
+ * (e.g. corrupting scheduledAt or dueAt to "right now").
  */
 export function toDate(value: unknown): Date {
   if (value && typeof (value as Timestamp).toDate === "function") {
     return (value as Timestamp).toDate();
   }
   if (value instanceof Date) return value;
-  return new Date();
+  throw new Error(
+    `Expected a Firestore Timestamp, got: ${JSON.stringify(value)}`
+  );
 }
 
 /**

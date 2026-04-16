@@ -1,8 +1,11 @@
+import "server-only";
+
 /**
  * Follow-up repository.
  */
 
 import { FieldValue, Timestamp } from "firebase-admin/firestore";
+import type { DocumentSnapshot } from "firebase-admin/firestore";
 import { getAdminFirestore } from "../firebase/admin";
 import { COLLECTIONS } from "../firebase/collections";
 import { baseFromDoc, toDate } from "./converters";
@@ -13,7 +16,7 @@ import type {
   UpdateFollowUpInput,
 } from "./models";
 
-function fromDoc(doc: FirebaseFirestore.DocumentSnapshot): FollowUp {
+function fromDoc(doc: DocumentSnapshot): FollowUp {
   const d = doc.data()!;
   return {
     ...baseFromDoc(doc),
@@ -26,7 +29,12 @@ function fromDoc(doc: FirebaseFirestore.DocumentSnapshot): FollowUp {
   };
 }
 
+/**
+ * Create a new follow-up.
+ * organizationId is passed explicitly — never trust caller-supplied field values.
+ */
 export async function createFollowUp(
+  organizationId: string,
   input: CreateFollowUpInput
 ): Promise<FollowUp> {
   const db = getAdminFirestore();
@@ -35,6 +43,7 @@ export async function createFollowUp(
 
   await ref.set({
     ...input,
+    organizationId,
     dueAt: Timestamp.fromDate(input.dueAt),
     createdAt: now,
     updatedAt: now,
@@ -43,6 +52,7 @@ export async function createFollowUp(
   return {
     ...input,
     id: ref.id,
+    organizationId,
     createdAt: now.toDate(),
     updatedAt: now.toDate(),
   };
@@ -63,8 +73,9 @@ export async function getFollowUpById(
 }
 
 /**
- * List all pending follow-ups for an org, ordered by due date ascending
+ * List all pending follow-ups for an org ordered by due date ascending
  * so the most overdue items appear first.
+ * Requires composite index: organizationId ASC + status ASC + dueAt ASC
  */
 export async function listPendingFollowUps(
   organizationId: string
@@ -82,6 +93,7 @@ export async function listPendingFollowUps(
 
 /**
  * List all follow-ups for a patient.
+ * Requires composite index: organizationId ASC + patientId ASC + dueAt DESC
  */
 export async function listFollowUpsForPatient(
   organizationId: string,

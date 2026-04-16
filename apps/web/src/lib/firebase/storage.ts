@@ -1,7 +1,9 @@
+import "server-only";
+
 /**
  * Firebase Storage helpers.
  *
- * SERVER-ONLY. Use getAdminStorage() for server-side operations.
+ * SERVER-ONLY — enforced by the `server-only` import above.
  *
  * File path convention:
  *   organizations/{organizationId}/patients/{patientId}/documents/{filename}

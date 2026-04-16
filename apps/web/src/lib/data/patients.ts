@@ -1,3 +1,5 @@
+import "server-only";
+
 /**
  * Patient repository.
  *
@@ -6,16 +8,17 @@
  */
 
 import { FieldValue, Timestamp } from "firebase-admin/firestore";
+import type { DocumentSnapshot } from "firebase-admin/firestore";
 import { getAdminFirestore } from "../firebase/admin";
 import { COLLECTIONS } from "../firebase/collections";
-import { baseFromDoc, toDate } from "./converters";
+import { baseFromDoc } from "./converters";
 import type {
   CreatePatientInput,
   Patient,
   UpdatePatientInput,
 } from "./models";
 
-function fromDoc(doc: FirebaseFirestore.DocumentSnapshot): Patient {
+function fromDoc(doc: DocumentSnapshot): Patient {
   const d = doc.data()!;
   return {
     ...baseFromDoc(doc),
@@ -33,9 +36,13 @@ function fromDoc(doc: FirebaseFirestore.DocumentSnapshot): Patient {
 
 /**
  * Create a new patient record.
+ * organizationId is passed explicitly — never trust caller-supplied field values.
  * fullName is derived automatically from firstName + lastName.
  */
-export async function createPatient(input: CreatePatientInput): Promise<Patient> {
+export async function createPatient(
+  organizationId: string,
+  input: CreatePatientInput
+): Promise<Patient> {
   const db = getAdminFirestore();
   const ref = db.collection(COLLECTIONS.PATIENTS).doc();
   const now = Timestamp.now();
@@ -43,6 +50,7 @@ export async function createPatient(input: CreatePatientInput): Promise<Patient>
 
   await ref.set({
     ...input,
+    organizationId,
     fullName,
     createdAt: now,
     updatedAt: now,
@@ -51,6 +59,7 @@ export async function createPatient(input: CreatePatientInput): Promise<Patient>
   return {
     ...input,
     id: ref.id,
+    organizationId,
     fullName,
     createdAt: now.toDate(),
     updatedAt: now.toDate(),

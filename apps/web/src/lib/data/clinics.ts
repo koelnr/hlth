@@ -1,3 +1,5 @@
+import "server-only";
+
 /**
  * Clinic profile repository.
  *
@@ -6,16 +8,17 @@
  */
 
 import { FieldValue, Timestamp } from "firebase-admin/firestore";
+import type { DocumentSnapshot } from "firebase-admin/firestore";
 import { getAdminFirestore } from "../firebase/admin";
 import { COLLECTIONS } from "../firebase/collections";
-import { baseFromDoc, toDate } from "./converters";
+import { baseFromDoc } from "./converters";
 import type {
   ClinicProfile,
   CreateClinicProfileInput,
   UpdateClinicProfileInput,
 } from "./models";
 
-function fromDoc(doc: FirebaseFirestore.DocumentSnapshot): ClinicProfile {
+function fromDoc(doc: DocumentSnapshot): ClinicProfile {
   const d = doc.data()!;
   return {
     ...baseFromDoc(doc),
@@ -30,26 +33,22 @@ function fromDoc(doc: FirebaseFirestore.DocumentSnapshot): ClinicProfile {
 
 /**
  * Create a new clinic profile for a Clerk organization.
- * Should be called once during onboarding.
+ * organizationId is passed explicitly — never trust caller-supplied field values.
  */
 export async function createClinicProfile(
+  organizationId: string,
   input: CreateClinicProfileInput
 ): Promise<ClinicProfile> {
   const db = getAdminFirestore();
   const ref = db.collection(COLLECTIONS.CLINIC_PROFILES).doc();
   const now = Timestamp.now();
 
-  const data = {
-    ...input,
-    createdAt: now,
-    updatedAt: now,
-  };
-
-  await ref.set(data);
+  await ref.set({ ...input, organizationId, createdAt: now, updatedAt: now });
 
   return {
     ...input,
     id: ref.id,
+    organizationId,
     createdAt: now.toDate(),
     updatedAt: now.toDate(),
   };
@@ -84,14 +83,10 @@ export async function updateClinicProfile(
   const db = getAdminFirestore();
   const ref = db.collection(COLLECTIONS.CLINIC_PROFILES).doc(id);
 
-  // Verify ownership before writing
   const doc = await ref.get();
   if (!doc.exists || doc.data()?.organizationId !== organizationId) {
     throw new Error("Clinic profile not found");
   }
 
-  await ref.update({
-    ...updates,
-    updatedAt: FieldValue.serverTimestamp(),
-  });
+  await ref.update({ ...updates, updatedAt: FieldValue.serverTimestamp() });
 }

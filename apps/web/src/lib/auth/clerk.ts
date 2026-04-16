@@ -1,8 +1,9 @@
+import "server-only";
+
 /**
  * Clerk server-side auth helpers.
  *
- * Use these in server components, server actions, and route handlers.
- * Never import in client components.
+ * SERVER-ONLY — enforced by the `server-only` import above.
  *
  * All data operations must be scoped to an organization. Use
  * requireOrganization() as the entry point in any handler that touches

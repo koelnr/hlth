@@ -1,8 +1,11 @@
+import "server-only";
+
 /**
  * Firebase Admin SDK initialization.
  *
- * This module is SERVER-ONLY. Never import it in client components or
- * any file that may be bundled for the browser.
+ * SERVER-ONLY — enforced by the `server-only` import above.
+ * Next.js will throw a build-time error if this module is accidentally
+ * imported in a Client Component.
  *
  * Required environment variables:
  *   FIREBASE_ADMIN_PROJECT_ID

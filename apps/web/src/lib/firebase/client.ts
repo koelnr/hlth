@@ -29,11 +29,21 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-let clientApp: FirebaseApp;
+let clientApp: FirebaseApp | undefined;
 
+/**
+ * Returns the Firebase client app instance.
+ * Must only be called in browser contexts (client components, event handlers).
+ * For server-side data access use the Admin SDK in ./admin.ts instead.
+ */
 export function getClientApp(): FirebaseApp {
+  if (typeof window === "undefined") {
+    throw new Error(
+      "getClientApp() must only be called in a browser context. Use the Admin SDK for server-side access."
+    );
+  }
   if (!clientApp) {
-    clientApp = getApps().length > 0 ? getApps()[0] : initializeApp(firebaseConfig);
+    clientApp = getApps().length > 0 ? getApps()[0]! : initializeApp(firebaseConfig);
   }
   return clientApp;
 }

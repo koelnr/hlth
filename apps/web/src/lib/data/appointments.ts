@@ -1,8 +1,11 @@
+import "server-only";
+
 /**
  * Appointment repository.
  */
 
 import { FieldValue, Timestamp } from "firebase-admin/firestore";
+import type { DocumentSnapshot } from "firebase-admin/firestore";
 import { getAdminFirestore } from "../firebase/admin";
 import { COLLECTIONS } from "../firebase/collections";
 import { baseFromDoc, toDate } from "./converters";
@@ -13,7 +16,7 @@ import type {
   UpdateAppointmentInput,
 } from "./models";
 
-function fromDoc(doc: FirebaseFirestore.DocumentSnapshot): Appointment {
+function fromDoc(doc: DocumentSnapshot): Appointment {
   const d = doc.data()!;
   return {
     ...baseFromDoc(doc),
@@ -28,7 +31,12 @@ function fromDoc(doc: FirebaseFirestore.DocumentSnapshot): Appointment {
   };
 }
 
+/**
+ * Create a new appointment.
+ * organizationId is passed explicitly — never trust caller-supplied field values.
+ */
 export async function createAppointment(
+  organizationId: string,
   input: CreateAppointmentInput
 ): Promise<Appointment> {
   const db = getAdminFirestore();
@@ -37,6 +45,7 @@ export async function createAppointment(
 
   await ref.set({
     ...input,
+    organizationId,
     scheduledAt: Timestamp.fromDate(input.scheduledAt),
     createdAt: now,
     updatedAt: now,
@@ -45,6 +54,7 @@ export async function createAppointment(
   return {
     ...input,
     id: ref.id,
+    organizationId,
     createdAt: now.toDate(),
     updatedAt: now.toDate(),
   };
@@ -82,6 +92,7 @@ export async function listAppointmentsForOrg(
 
 /**
  * List appointments for a specific patient.
+ * Requires composite index: organizationId ASC + patientId ASC + scheduledAt DESC
  */
 export async function listAppointmentsForPatient(
   organizationId: string,
@@ -99,23 +110,28 @@ export async function listAppointmentsForPatient(
 }
 
 /**
- * List appointments scheduled for today (in the server's local timezone).
- * For production, pass an explicit date range instead.
+ * List appointments within a date range, ordered by scheduledAt ascending.
+ * Pass timezone-adjusted start/end dates from the caller — do not compute
+ * "today" server-side, as the server runs UTC and clinics may be in any timezone.
+ *
+ * Example for "today" in a server action:
+ *   const tz = viewer.timezone ?? "UTC";
+ *   const { startOfDay, endOfDay } = getTodayBounds(tz); // your own util
+ *   const appts = await listAppointmentsInRange(orgId, startOfDay, endOfDay);
+ *
+ * Requires composite index: organizationId ASC + scheduledAt ASC
  */
-export async function listTodaysAppointments(
-  organizationId: string
+export async function listAppointmentsInRange(
+  organizationId: string,
+  from: Date,
+  to: Date
 ): Promise<Appointment[]> {
   const db = getAdminFirestore();
-  const startOfDay = new Date();
-  startOfDay.setHours(0, 0, 0, 0);
-  const endOfDay = new Date();
-  endOfDay.setHours(23, 59, 59, 999);
-
   const snap = await db
     .collection(COLLECTIONS.APPOINTMENTS)
     .where("organizationId", "==", organizationId)
-    .where("scheduledAt", ">=", Timestamp.fromDate(startOfDay))
-    .where("scheduledAt", "<=", Timestamp.fromDate(endOfDay))
+    .where("scheduledAt", ">=", Timestamp.fromDate(from))
+    .where("scheduledAt", "<=", Timestamp.fromDate(to))
     .orderBy("scheduledAt", "asc")
     .get();
 
