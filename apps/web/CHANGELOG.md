@@ -1,3 +1,13 @@
+# @hlth/web [0.3.0](https://github.com/koelnr/hlth/compare/@hlth/web@0.2.2...@hlth/web@0.3.0) (2026-04-16)
+
+
+### Features
+
+* **auth:** add clerk server-side auth helpers and viewer context ([52167cd](https://github.com/koelnr/hlth/commit/52167cd70b4f6c55fb53c90adcef8c46a8c437e3))
+* **data:** add multi-tenant data models and firestore repositories ([10d2506](https://github.com/koelnr/hlth/commit/10d2506da158201267ac423e5d0d7746fdd110e2))
+* **firebase:** add admin SDK, client SDK, collections, and storage helpers ([e565279](https://github.com/koelnr/hlth/commit/e565279a4663b0b4e422506649afed794afa7093))
+* **middleware:** enforce clerk auth on all non-public routes ([d58dbb0](https://github.com/koelnr/hlth/commit/d58dbb0f8860096bfc6184aaec41a616187ed55c))
+
 ## @hlth/web [0.2.2](https://github.com/koelnr/hlth/compare/@hlth/web@0.2.1...@hlth/web@0.2.2) (2026-04-15)
 
 
