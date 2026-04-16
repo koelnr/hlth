@@ -2,7 +2,7 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 /**
  * Public routes that do not require authentication.
- * Everything else (including /dashboard/**) is protected.
+ * Everything else is protected.
  */
 const isPublicRoute = createRouteMatcher([
   "/",
