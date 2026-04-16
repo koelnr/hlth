@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
 import { AppSidebar } from "@/components/app/app-sidebar";
 import { AppHeader } from "@/components/app/app-header";
@@ -9,13 +8,7 @@ export default async function ProtectedLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { userId, orgId, orgSlug } = await auth();
-
-  // if (!userId) redirect("/sign-in");
-
-  // Org context is required for all protected app routes.
-  // Until an org creation/selection flow exists, redirect to sign-in.
-  // if (!orgId) redirect("/sign-in");
+  const { orgSlug } = await auth();
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
