@@ -91,6 +91,19 @@ export default function NewPatientPage() {
             </div>
           </div>
 
+          <div className="space-y-1.5">
+            <label htmlFor="notes" className="text-sm font-medium text-foreground">
+              Notes
+            </label>
+            <textarea
+              id="notes"
+              name="notes"
+              rows={4}
+              placeholder="Any relevant clinical or administrative notes…"
+              className="w-full px-3 py-2 text-sm border border-input rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
+            />
+          </div>
+
           <div className="flex items-center justify-end gap-3 pt-2 border-t border-border">
             <Button asChild variant="outline" size="sm">
               <Link href="/patients">Cancel</Link>

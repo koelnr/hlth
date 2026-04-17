@@ -10,9 +10,10 @@ export async function createPatientAction(formData: FormData) {
   const firstName = (formData.get("firstName") as string).trim();
   const lastName = (formData.get("lastName") as string).trim();
   const phone = (formData.get("phone") as string).trim();
-  const email = (formData.get("email") as string)?.trim() || undefined;
-  const dateOfBirth = (formData.get("dateOfBirth") as string) || undefined;
-  const gender = (formData.get("gender") as string) || undefined;
+  const email = (formData.get("email") as string)?.trim() || null;
+  const dateOfBirth = (formData.get("dateOfBirth") as string) || null;
+  const gender = (formData.get("gender") as string) || null;
+  const notes = (formData.get("notes") as string)?.trim() || null;
 
   await createPatient(viewer.orgId, {
     firstName,
@@ -21,6 +22,7 @@ export async function createPatientAction(formData: FormData) {
     email,
     dateOfBirth,
     gender,
+    notes,
     createdByUserId: viewer.userId,
   });
 
