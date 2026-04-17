@@ -10,9 +10,12 @@ export async function createAppointmentAction(formData: FormData) {
   const patientId = formData.get("patientId") as string;
   const scheduledDate = formData.get("scheduledDate") as string;
   const scheduledTime = formData.get("scheduledTime") as string;
-  const durationMinutes = parseInt(formData.get("durationMinutes") as string, 10);
-  const reason = (formData.get("reason") as string)?.trim() || undefined;
-  const notes = (formData.get("notes") as string)?.trim() || undefined;
+  const durationMinutes = parseInt(
+    formData.get("durationMinutes") as string,
+    10,
+  );
+  const reason = (formData.get("reason") as string)?.trim() || null;
+  const notes = (formData.get("notes") as string)?.trim() || null;
 
   const scheduledAt = new Date(`${scheduledDate}T${scheduledTime}`);
 
@@ -24,6 +27,8 @@ export async function createAppointmentAction(formData: FormData) {
     reason,
     notes,
     createdByUserId: viewer.userId,
+    /** Clerk user ID of the treating clinician. Optional for now. */
+    clinicianUserId: null,
   });
 
   redirect("/appointments");

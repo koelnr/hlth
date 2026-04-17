@@ -8,25 +8,37 @@ import { OverviewCard } from "@/components/app/overview-card";
 import { EmptyState } from "@/components/app/empty-state";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  Users,
-  Calendar,
-  ClipboardList,
-  AlertCircle,
-} from "lucide-react";
+import { Users, Calendar, ClipboardList, AlertCircle } from "lucide-react";
 import type { Appointment, FollowUp } from "@/lib/data/models";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function getTodayRange(): { start: Date; end: Date } {
   const now = new Date();
-  const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
-  const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+  const start = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    0,
+    0,
+    0,
+  );
+  const end = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    23,
+    59,
+    59,
+  );
   return { start, end };
 }
 
 function formatTime(date: Date): string {
-  return date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+  return date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+  });
 }
 
 function formatDate(date: Date): string {
@@ -120,7 +132,7 @@ async function DashboardData({ orgId }: { orgId: string }) {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-foreground">
-              Today's Appointments
+              Today&apos;s Appointments
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -139,7 +151,8 @@ async function DashboardData({ orgId }: { orgId: string }) {
                   >
                     <div className="min-w-0">
                       <p className="text-sm font-medium text-foreground truncate">
-                        {patientNames.get(appt.patientId) ?? `Patient …${appt.patientId.slice(-6)}`}
+                        {patientNames.get(appt.patientId) ??
+                          `Patient …${appt.patientId.slice(-6)}`}
                       </p>
                       {appt.reason && (
                         <p className="text-xs text-muted-foreground truncate mt-0.5">
@@ -185,7 +198,8 @@ async function DashboardData({ orgId }: { orgId: string }) {
                   >
                     <div className="min-w-0">
                       <p className="text-sm font-medium text-foreground truncate">
-                        {patientNames.get(followUp.patientId) ?? `Patient …${followUp.patientId.slice(-6)}`}
+                        {patientNames.get(followUp.patientId) ??
+                          `Patient …${followUp.patientId.slice(-6)}`}
                       </p>
                       {followUp.note && (
                         <p className="text-xs text-muted-foreground truncate mt-0.5">
