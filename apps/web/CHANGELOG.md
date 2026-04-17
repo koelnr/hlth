@@ -1,3 +1,18 @@
+# @hlth/web [0.11.0](https://github.com/koelnr/hlth/compare/@hlth/web@0.10.0...@hlth/web@0.11.0) (2026-04-17)
+
+
+### Features
+
+* **actions:** redirect to detail page after create ([1d47097](https://github.com/koelnr/hlth/commit/1d470971be36bab739357ede095c041dedcfb93d))
+* **appointments:** add create follow-up action to appointment detail ([149b54d](https://github.com/koelnr/hlth/commit/149b54d969ee2527f4ab4300dd53a6281c6a23f8))
+* **appointments:** add status filter to appointments list ([0de6592](https://github.com/koelnr/hlth/commit/0de659269c125f3f4c265994432c99e8a93207fa))
+* **follow-ups:** add book appointment action to follow-up detail ([5a68e5f](https://github.com/koelnr/hlth/commit/5a68e5f8d6e37abce67cb13d802e2a085a7a6de6))
+* **forms:** prefill patient/appointment from url search params ([3697407](https://github.com/koelnr/hlth/commit/3697407f14ed64ff0286a7dce31e517f34cce0bd))
+* **nav:** add settings to sidebar and mobile navigation ([f5f3d2f](https://github.com/koelnr/hlth/commit/f5f3d2f395f7239b2af29041d7e6e3f000bc9c38))
+* **patients:** add client-side search to patient list ([1ba8264](https://github.com/koelnr/hlth/commit/1ba8264fc35253ebd860571372fe10b60aa278e6))
+* **patients:** add quick actions and related records to patient detail ([2046ead](https://github.com/koelnr/hlth/commit/2046ead5de7614cd31186e29194b522b8fc24c7f))
+* **settings:** add clinic settings page with profile management ([f371e6f](https://github.com/koelnr/hlth/commit/f371e6f641a4626445c3f20d5c775e79e02c6233))
+
 # @hlth/web [0.10.0](https://github.com/koelnr/hlth/compare/@hlth/web@0.9.0...@hlth/web@0.10.0) (2026-04-17)
 
 
