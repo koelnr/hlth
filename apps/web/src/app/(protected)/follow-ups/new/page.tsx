@@ -19,8 +19,14 @@ function formatApptDate(date: Date): string {
   });
 }
 
-export default async function NewFollowUpPage() {
+export default async function NewFollowUpPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ patientId?: string; appointmentId?: string }>;
+}) {
   const viewer = await requireOrganization();
+  const { patientId: defaultPatientId, appointmentId: defaultAppointmentId } =
+    await searchParams;
 
   let patients: PatientOption[] = [];
   let appointmentOptions: AppointmentOption[] = [];
@@ -91,7 +97,11 @@ export default async function NewFollowUpPage() {
           <FollowUpFormFields
             patients={patients}
             appointmentOptions={appointmentOptions}
-            defaultValues={{ dueDate: defaultDueDate }}
+            defaultValues={{
+              dueDate: defaultDueDate,
+              patientId: defaultPatientId,
+              appointmentId: defaultAppointmentId,
+            }}
           />
           <div className="flex items-center justify-end gap-3 pt-2 border-t border-border">
             <Button asChild variant="outline" size="sm">

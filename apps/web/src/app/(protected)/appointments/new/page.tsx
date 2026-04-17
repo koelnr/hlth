@@ -10,8 +10,13 @@ import { createAppointmentAction } from "./actions";
 import { AppointmentFormFields } from "../_components/appointment-form-fields";
 import type { Patient } from "@/lib/data/models";
 
-export default async function NewAppointmentPage() {
+export default async function NewAppointmentPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ patientId?: string }>;
+}) {
   const viewer = await requireOrganization();
+  const { patientId: defaultPatientId } = await searchParams;
 
   let patients: Patient[] = [];
   try {
@@ -77,7 +82,11 @@ export default async function NewAppointmentPage() {
         <form action={createAppointmentAction} className="space-y-5">
           <AppointmentFormFields
             patients={patients}
-            defaultValues={{ scheduledDate: defaultDate, scheduledTime: defaultTime }}
+            defaultValues={{
+              scheduledDate: defaultDate,
+              scheduledTime: defaultTime,
+              patientId: defaultPatientId,
+            }}
           />
           <div className="flex items-center justify-end gap-3 pt-2 border-t border-border">
             <Button asChild variant="outline" size="sm">
