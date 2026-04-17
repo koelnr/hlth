@@ -1,3 +1,17 @@
+# @hlth/web [0.8.0](https://github.com/koelnr/hlth/compare/@hlth/web@0.7.0...@hlth/web@0.8.0) (2026-04-17)
+
+
+### Features
+
+* **follow-ups:** add detail page with patient, appointment, and status sections ([6f07a56](https://github.com/koelnr/hlth/commit/6f07a56f07a3dba05f6976ebb0cc21feaa87ad71))
+* **follow-ups:** add edit page with prefilled form and status field ([2f77892](https://github.com/koelnr/hlth/commit/2f7789276510d8860b8850abcd0cc2a0a7eaa473))
+* **follow-ups:** add listFollowUpsByOrganization and deleteFollowUp to repository ([c18ef1d](https://github.com/koelnr/hlth/commit/c18ef1d1caf827a8572017d862672a86b70a1203))
+* **follow-ups:** add patient/appointment validation to create action and update create page ([a8f8993](https://github.com/koelnr/hlth/commit/a8f8993319a6d7e7450285a8bf60995d78d9f05c))
+* **follow-ups:** add shared FollowUpFormFields component ([dc53e8d](https://github.com/koelnr/hlth/commit/dc53e8d64eeaa05c5e45045b048cd2db9ecd60b1))
+* **follow-ups:** add StatusActions and DeleteFollowUpButton client components ([c054de1](https://github.com/koelnr/hlth/commit/c054de122aef8a716b0504b243baa5dc46026fb9))
+* **follow-ups:** add update, status, and delete server actions ([dbffb5f](https://github.com/koelnr/hlth/commit/dbffb5fb62102ed883687a04c8b82f336d6c1a1c))
+* **follow-ups:** rewrite list page with urgency grouping and clickable rows ([f8a3383](https://github.com/koelnr/hlth/commit/f8a33831b4ca7e4b7c7a1846f7211934b7fa1ec3))
+
 # @hlth/web [0.7.0](https://github.com/koelnr/hlth/compare/@hlth/web@0.6.0...@hlth/web@0.7.0) (2026-04-17)
 
 
