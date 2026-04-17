@@ -1,3 +1,18 @@
+# @hlth/web [0.9.0](https://github.com/koelnr/hlth/compare/@hlth/web@0.8.0...@hlth/web@0.9.0) (2026-04-17)
+
+
+### Bug Fixes
+
+* **follow-ups:** keep delete dialog open until action completes ([0703e42](https://github.com/koelnr/hlth/commit/0703e423d189da1873fffa148874f6ea6d64d6b2))
+* **follow-ups:** show error on status update failure and add per-status colors ([31b5e99](https://github.com/koelnr/hlth/commit/31b5e999aed568cf93a53e4abebb67c0f5da4381))
+* **follow-ups:** surface load errors and fix loading skeleton layout ([6726687](https://github.com/koelnr/hlth/commit/67266871cd4b69753f9fe959f21a43cab22dc84e))
+* **follow-ups:** use UTC boundaries for date grouping and display ([8f1bd57](https://github.com/koelnr/hlth/commit/8f1bd57d074b37ec095715b738d7dbaa713759c2))
+
+
+### Features
+
+* **follow-ups:** filter appointment dropdown to selected patient ([e02a664](https://github.com/koelnr/hlth/commit/e02a66460e810acaf80d0e3de352257b155407b6))
+
 # @hlth/web [0.8.0](https://github.com/koelnr/hlth/compare/@hlth/web@0.7.0...@hlth/web@0.8.0) (2026-04-17)
 
 
