@@ -1,3 +1,13 @@
+# @hlth/web [0.6.0](https://github.com/koelnr/hlth/compare/@hlth/web@0.5.0...@hlth/web@0.6.0) (2026-04-17)
+
+
+### Features
+
+* **appointments:** add deleteAppointment to repository ([dca9be5](https://github.com/koelnr/hlth/commit/dca9be58372db798287289f51bfd79194d6c74d8))
+* **appointments:** add detail, edit, status, and delete flows ([cc56548](https://github.com/koelnr/hlth/commit/cc5654852550a0e4ae2d29c6ff6972c46af76816))
+* **appointments:** add patient names and clickable rows to list ([d8be327](https://github.com/koelnr/hlth/commit/d8be327eabeec4450025bee1f090f1e26f820ba5))
+* **appointments:** validate patient org ownership on create ([6d4e8a1](https://github.com/koelnr/hlth/commit/6d4e8a16b339062d52217bd466dedbe2f97a32ad))
+
 # @hlth/web [0.5.0](https://github.com/koelnr/hlth/compare/@hlth/web@0.4.3...@hlth/web@0.5.0) (2026-04-17)
 
 
