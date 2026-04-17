@@ -26,9 +26,14 @@ export function StatusActions({
 
   function handleStatusChange(status: AppointmentStatus) {
     if (status === optimisticStatus) return;
+    const previous = optimisticStatus;
     setOptimisticStatus(status);
     startTransition(async () => {
-      await updateAppointmentStatusAction(appointmentId, status);
+      try {
+        await updateAppointmentStatusAction(appointmentId, status);
+      } catch {
+        setOptimisticStatus(previous);
+      }
     });
   }
 

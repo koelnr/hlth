@@ -7,31 +7,10 @@ import { getAppointmentById } from "@/lib/data/appointments";
 import { getPatientById } from "@/lib/data/patients";
 import { PageShell } from "@/components/app/page-shell";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { DeleteAppointmentButton } from "./delete-appointment-button";
 import { StatusActions } from "./status-actions";
-import type { Appointment } from "@/lib/data/models";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-
-function statusLabel(status: Appointment["status"]): string {
-  const labels: Record<Appointment["status"], string> = {
-    scheduled: "Scheduled",
-    completed: "Completed",
-    cancelled: "Cancelled",
-    no_show: "No show",
-  };
-  return labels[status];
-}
-
-function statusVariant(
-  status: Appointment["status"],
-): "default" | "secondary" | "outline" | "destructive" {
-  if (status === "scheduled") return "default";
-  if (status === "completed") return "secondary";
-  if (status === "cancelled") return "destructive";
-  return "outline";
-}
 
 function formatDateTime(date: Date): string {
   return date.toLocaleDateString("en-US", {
@@ -144,20 +123,10 @@ export default async function AppointmentDetailPage({
       <div className="max-w-2xl space-y-4">
         {/* Status */}
         <Section title="Status">
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <Badge variant={statusVariant(appt.status)}>
-                {statusLabel(appt.status)}
-              </Badge>
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Update status directly:
-            </p>
-            <StatusActions
-              appointmentId={appointmentId}
-              currentStatus={appt.status}
-            />
-          </div>
+          <StatusActions
+            appointmentId={appointmentId}
+            currentStatus={appt.status}
+          />
         </Section>
 
         {/* Appointment details */}
