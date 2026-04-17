@@ -1,3 +1,11 @@
+## @hlth/web [0.4.3](https://github.com/koelnr/hlth/compare/@hlth/web@0.4.2...@hlth/web@0.4.3) (2026-04-17)
+
+
+### Bug Fixes
+
+* **app:** formmating and linting errors ([6516030](https://github.com/koelnr/hlth/commit/6516030c53c78a6667155743be6a7abec85f071c))
+* **app:** replace undefined with null in models ([f59bb05](https://github.com/koelnr/hlth/commit/f59bb052e8f6b47a55af5c1c8e2e27f8f1128852))
+
 ## @hlth/web [0.4.2](https://github.com/koelnr/hlth/compare/@hlth/web@0.4.1...@hlth/web@0.4.2) (2026-04-16)
 
 
