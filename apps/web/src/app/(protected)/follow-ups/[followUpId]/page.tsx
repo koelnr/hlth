@@ -20,6 +20,7 @@ function formatDueDate(date: Date): string {
     month: "long",
     day: "numeric",
     year: "numeric",
+    timeZone: "UTC",
   });
 }
 
@@ -105,8 +106,8 @@ export default async function FollowUpDetailPage({
   const patientName = patient?.fullName ?? `Patient …${followUp.patientId.slice(-6)}`;
 
   const now = new Date();
-  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const isOverdue = followUp.status === "pending" && followUp.dueAt < startOfToday;
+  const todayUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  const isOverdue = followUp.status === "pending" && followUp.dueAt.getTime() < todayUTC;
 
   return (
     <PageShell

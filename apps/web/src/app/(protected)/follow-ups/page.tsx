@@ -23,8 +23,10 @@ interface Groups {
 
 function groupFollowUps(followUps: FollowUp[]): Groups {
   const now = new Date();
-  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+  // Use UTC day boundaries — dueAt is stored as UTC midnight so comparisons
+  // must stay in UTC to avoid off-by-one errors in negative-offset timezones.
+  const todayUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  const tomorrowUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1);
 
   const groups: Groups = { overdue: [], dueToday: [], upcoming: [], completed: [], cancelled: [] };
 
@@ -33,9 +35,9 @@ function groupFollowUps(followUps: FollowUp[]): Groups {
       groups.completed.push(f);
     } else if (f.status === "cancelled") {
       groups.cancelled.push(f);
-    } else if (f.dueAt < startOfToday) {
+    } else if (f.dueAt.getTime() < todayUTC) {
       groups.overdue.push(f);
-    } else if (f.dueAt <= endOfToday) {
+    } else if (f.dueAt.getTime() < tomorrowUTC) {
       groups.dueToday.push(f);
     } else {
       groups.upcoming.push(f);
@@ -82,10 +84,13 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 function formatDueDate(date: Date): string {
+  // timeZone: "UTC" matches how dueAt is stored (UTC midnight) to avoid
+  // off-by-one errors in negative-offset timezones.
   return date.toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
+    timeZone: "UTC",
   });
 }
 
@@ -99,8 +104,8 @@ function FollowUpRow({
   showStatus?: boolean;
 }) {
   const now = new Date();
-  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const isOverdue = followUp.status === "pending" && followUp.dueAt < startOfToday;
+  const todayUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  const isOverdue = followUp.status === "pending" && followUp.dueAt.getTime() < todayUTC;
 
   return (
     <Link
@@ -172,6 +177,7 @@ export default async function FollowUpsPage() {
 
   let followUps: FollowUp[] = [];
   let patientNames = new Map<string, string>();
+  let loadError = false;
 
   try {
     const [followUpData, patients] = await Promise.all([
@@ -180,8 +186,9 @@ export default async function FollowUpsPage() {
     ]);
     followUps = followUpData;
     patientNames = new Map(patients.map((p) => [p.id, p.fullName]));
-  } catch {
-    // Firebase not yet configured — render empty state below
+  } catch (err) {
+    console.error("[FollowUpsPage] Failed to load follow-ups:", err);
+    loadError = true;
   }
 
   const groups = groupFollowUps(followUps);
@@ -202,7 +209,13 @@ export default async function FollowUpsPage() {
         </Button>
       }
     >
-      {!hasAny ? (
+      {loadError ? (
+        <EmptyState
+          icon={ClipboardList}
+          title="Unable to load follow-ups"
+          description="Something went wrong while fetching data. Please refresh the page or try again later."
+        />
+      ) : !hasAny ? (
         <EmptyState
           icon={ClipboardList}
           title="No follow-ups yet"
