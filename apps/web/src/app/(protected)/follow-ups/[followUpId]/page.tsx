@@ -114,11 +114,17 @@ export default async function FollowUpDetailPage({
       title={patientName}
       description={`Follow-up · Due ${formatDueDate(followUp.dueAt)}`}
       actions={
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <Button asChild variant="ghost" size="sm">
             <Link href="/follow-ups">
               <ArrowLeft className="h-4 w-4 mr-1.5" />
               All follow-ups
+            </Link>
+          </Button>
+          <Button asChild variant="outline" size="sm">
+            <Link href={`/appointments/new?patientId=${followUp.patientId}`}>
+              <Calendar className="h-4 w-4 mr-1.5" />
+              Book appointment
             </Link>
           </Button>
           <Button asChild variant="outline" size="sm">
