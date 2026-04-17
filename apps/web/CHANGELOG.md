@@ -1,3 +1,16 @@
+# @hlth/web [0.10.0](https://github.com/koelnr/hlth/compare/@hlth/web@0.9.0...@hlth/web@0.10.0) (2026-04-17)
+
+
+### Bug Fixes
+
+* **appointments:** revalidate dashboard on status update ([08ae71d](https://github.com/koelnr/hlth/commit/08ae71d48f461208c56c0a2a89fab023852b9fe3))
+
+
+### Features
+
+* **dashboard:** add quick-status actions for today's appointments ([571657c](https://github.com/koelnr/hlth/commit/571657c0e08b4810433906f7bda7aa8ecf767057))
+* **dashboard:** implement phase 2 operational dashboard ([61d92c6](https://github.com/koelnr/hlth/commit/61d92c652569c3c2343dce0d1e8fdb2270da6c75))
+
 # @hlth/web [0.9.0](https://github.com/koelnr/hlth/compare/@hlth/web@0.8.0...@hlth/web@0.9.0) (2026-04-17)
 
 
