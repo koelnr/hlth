@@ -9,12 +9,17 @@ export async function createAppointmentAction(formData: FormData) {
   const viewer = await requireOrganization();
 
   const patientId = formData.get("patientId") as string;
+  if (!patientId) throw new Error("Patient is required");
+
   const scheduledDate = formData.get("scheduledDate") as string;
   const scheduledTime = formData.get("scheduledTime") as string;
   const durationMinutes = parseInt(
     formData.get("durationMinutes") as string,
     10,
   );
+  if (!Number.isFinite(durationMinutes) || durationMinutes <= 0) {
+    throw new Error("Invalid duration");
+  }
   const reason = (formData.get("reason") as string)?.trim() || null;
   const notes = (formData.get("notes") as string)?.trim() || null;
 

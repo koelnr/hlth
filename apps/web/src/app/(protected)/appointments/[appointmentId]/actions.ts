@@ -10,6 +10,13 @@ import {
 import { getPatientById } from "@/lib/data/patients";
 import type { AppointmentStatus } from "@/lib/data/models";
 
+const VALID_STATUSES: AppointmentStatus[] = [
+  "scheduled",
+  "completed",
+  "cancelled",
+  "no_show",
+];
+
 export async function updateAppointmentAction(
   appointmentId: string,
   formData: FormData,
@@ -17,13 +24,22 @@ export async function updateAppointmentAction(
   const viewer = await requireOrganization();
 
   const patientId = formData.get("patientId") as string;
+  if (!patientId) throw new Error("Patient is required");
+
   const scheduledDate = formData.get("scheduledDate") as string;
   const scheduledTime = formData.get("scheduledTime") as string;
   const durationMinutes = parseInt(
     formData.get("durationMinutes") as string,
     10,
   );
-  const status = formData.get("status") as AppointmentStatus;
+  if (!Number.isFinite(durationMinutes) || durationMinutes <= 0) {
+    throw new Error("Invalid duration");
+  }
+  const rawStatus = formData.get("status") as string;
+  if (!VALID_STATUSES.includes(rawStatus as AppointmentStatus)) {
+    throw new Error("Invalid status");
+  }
+  const status = rawStatus as AppointmentStatus;
   const reason = (formData.get("reason") as string)?.trim() || null;
   const notes = (formData.get("notes") as string)?.trim() || null;
 
@@ -55,6 +71,9 @@ export async function updateAppointmentStatusAction(
   appointmentId: string,
   status: AppointmentStatus,
 ): Promise<void> {
+  if (!VALID_STATUSES.includes(status)) {
+    throw new Error("Invalid status");
+  }
   const viewer = await requireOrganization();
   await updateAppointment(appointmentId, viewer.orgId, { status });
   revalidatePath(`/appointments/${appointmentId}`);
