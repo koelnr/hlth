@@ -1,3 +1,19 @@
+# @hlth/web [0.7.0](https://github.com/koelnr/hlth/compare/@hlth/web@0.6.0...@hlth/web@0.7.0) (2026-04-17)
+
+
+### Bug Fixes
+
+* **appointments:** align loading skeleton with actual table layout ([84a1a99](https://github.com/koelnr/hlth/commit/84a1a99bc11a752da26401aa312fdb361c2c3565))
+* **appointments:** simplify status section and roll back optimistic state on error ([b12d956](https://github.com/koelnr/hlth/commit/b12d956438e1028892ef1ade2a910899935c39f1))
+* **appointments:** validate patientId, durationMinutes, and status in actions ([c72aaad](https://github.com/koelnr/hlth/commit/c72aaadc75e0f235998707db207da787a91f5170))
+* **patients:** add org guard to new page, deduplicate form, add submit pending state ([5244141](https://github.com/koelnr/hlth/commit/524414161b5cb3bd684f56bc1ee5d7472da6d7b7))
+* **patients:** null-safe field extraction and required field validation in actions ([4a9dd77](https://github.com/koelnr/hlth/commit/4a9dd77bb0efb447af8eb98f9f222b08a3ccf0ef))
+
+
+### Features
+
+* **ui:** add SubmitButton with useFormStatus pending state ([58bd5c2](https://github.com/koelnr/hlth/commit/58bd5c239f456c1ef66b47304a09d2271864bfd5))
+
 # @hlth/web [0.6.0](https://github.com/koelnr/hlth/compare/@hlth/web@0.5.0...@hlth/web@0.6.0) (2026-04-17)
 
 
