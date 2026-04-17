@@ -129,3 +129,24 @@ export async function updatePatient(
     updatedAt: FieldValue.serverTimestamp(),
   });
 }
+
+/**
+ * Hard-delete a patient record.
+ * Verifies org ownership before deleting. Does not cascade-delete
+ * related appointments or follow-ups — callers should handle that
+ * when those modules are built.
+ */
+export async function deletePatient(
+  id: string,
+  organizationId: string
+): Promise<void> {
+  const db = getAdminFirestore();
+  const ref = db.collection(COLLECTIONS.PATIENTS).doc(id);
+
+  const doc = await ref.get();
+  if (!doc.exists || doc.data()?.organizationId !== organizationId) {
+    throw new Error("Patient not found");
+  }
+
+  await ref.delete();
+}
