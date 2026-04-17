@@ -12,16 +12,25 @@ interface DeleteFollowUpButtonProps {
 }
 
 export function DeleteFollowUpButton({ followUpId, patientName }: DeleteFollowUpButtonProps) {
+  const [open, setOpen] = React.useState(false);
   const [isPending, startTransition] = React.useTransition();
 
   function handleConfirm() {
     startTransition(async () => {
       await deleteFollowUpAction(followUpId);
+      // redirect() is called inside the action on success; this line is
+      // only reached on error (redirect throws, caught by Next.js boundary).
     });
   }
 
   return (
-    <AlertDialog.Root>
+    <AlertDialog.Root
+      open={open}
+      onOpenChange={(next) => {
+        // Prevent closing the dialog while deletion is in progress.
+        if (!isPending) setOpen(next);
+      }}
+    >
       <AlertDialog.Trigger asChild>
         <Button variant="destructive" size="sm">
           <Trash2 className="h-4 w-4 mr-1.5" />
@@ -41,21 +50,22 @@ export function DeleteFollowUpButton({ followUpId, patientName }: DeleteFollowUp
             be undone.
           </AlertDialog.Description>
           <div className="flex items-center justify-end gap-3">
-            <AlertDialog.Cancel asChild>
-              <Button variant="outline" size="sm" disabled={isPending}>
-                Keep follow-up
-              </Button>
-            </AlertDialog.Cancel>
-            <AlertDialog.Action asChild>
-              <Button
-                variant="destructive"
-                size="sm"
-                disabled={isPending}
-                onClick={handleConfirm}
-              >
-                {isPending ? "Deleting…" : "Delete follow-up"}
-              </Button>
-            </AlertDialog.Action>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={isPending}
+              onClick={() => setOpen(false)}
+            >
+              Keep follow-up
+            </Button>
+            <Button
+              variant="destructive"
+              size="sm"
+              disabled={isPending}
+              onClick={handleConfirm}
+            >
+              {isPending ? "Deleting…" : "Delete follow-up"}
+            </Button>
           </div>
         </AlertDialog.Content>
       </AlertDialog.Portal>
