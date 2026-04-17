@@ -31,7 +31,7 @@ export async function createAppointmentAction(formData: FormData) {
 
   const scheduledAt = new Date(`${scheduledDate}T${scheduledTime}`);
 
-  await createAppointment(viewer.orgId, {
+  const appt = await createAppointment(viewer.orgId, {
     patientId,
     scheduledAt,
     durationMinutes,
@@ -42,5 +42,5 @@ export async function createAppointmentAction(formData: FormData) {
     clinicianUserId: null,
   });
 
-  redirect("/appointments");
+  redirect(`/appointments/${appt.id}`);
 }

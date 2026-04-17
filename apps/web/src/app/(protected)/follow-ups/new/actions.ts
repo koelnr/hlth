@@ -32,7 +32,7 @@ export async function createFollowUpAction(formData: FormData) {
     }
   }
 
-  await createFollowUp(viewer.orgId, {
+  const followUp = await createFollowUp(viewer.orgId, {
     patientId,
     dueAt: new Date(dueDate),
     status: "pending",
@@ -41,5 +41,5 @@ export async function createFollowUpAction(formData: FormData) {
     createdByUserId: viewer.userId,
   });
 
-  redirect("/follow-ups");
+  redirect(`/follow-ups/${followUp.id}`);
 }
