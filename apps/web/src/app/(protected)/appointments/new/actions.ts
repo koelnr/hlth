@@ -2,6 +2,7 @@
 
 import { requireOrganization } from "@/lib/auth/clerk";
 import { createAppointment } from "@/lib/data/appointments";
+import { getPatientById } from "@/lib/data/patients";
 import { redirect } from "next/navigation";
 
 export async function createAppointmentAction(formData: FormData) {
@@ -17,6 +18,12 @@ export async function createAppointmentAction(formData: FormData) {
   const reason = (formData.get("reason") as string)?.trim() || null;
   const notes = (formData.get("notes") as string)?.trim() || null;
 
+  // Verify patient belongs to this organization before creating
+  const patient = await getPatientById(patientId, viewer.orgId);
+  if (!patient) {
+    throw new Error("Patient not found in this organization");
+  }
+
   const scheduledAt = new Date(`${scheduledDate}T${scheduledTime}`);
 
   await createAppointment(viewer.orgId, {
@@ -27,7 +34,6 @@ export async function createAppointmentAction(formData: FormData) {
     reason,
     notes,
     createdByUserId: viewer.userId,
-    /** Clerk user ID of the treating clinician. Optional for now. */
     clinicianUserId: null,
   });
 
