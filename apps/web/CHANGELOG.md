@@ -1,3 +1,13 @@
+# @hlth/web [0.5.0](https://github.com/koelnr/hlth/compare/@hlth/web@0.4.3...@hlth/web@0.5.0) (2026-04-17)
+
+
+### Features
+
+* **patients:** add deletePatient to repository ([8fbcdbd](https://github.com/koelnr/hlth/commit/8fbcdbd1dec7234faafbc591e22ae52daec5e1d7))
+* **patients:** add detail, edit, and delete flows ([eabeb86](https://github.com/koelnr/hlth/commit/eabeb86a9cb3feb6daaa835e633411315a47129c))
+* **patients:** add notes field to create form and fix null types ([53dc496](https://github.com/koelnr/hlth/commit/53dc496c0b734c6391dc690d26c316d57434c179))
+* **patients:** make list rows link to detail page ([f3a8b7b](https://github.com/koelnr/hlth/commit/f3a8b7be1cbd8d1ea9fa969ddf87e4be10c2b454))
+
 ## @hlth/web [0.4.3](https://github.com/koelnr/hlth/compare/@hlth/web@0.4.2...@hlth/web@0.4.3) (2026-04-17)
 
 
