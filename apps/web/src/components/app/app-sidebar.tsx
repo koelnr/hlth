@@ -3,7 +3,7 @@
 import { brand } from "@/content/landing";
 import { cn } from "@/lib/utils";
 import { OrganizationSwitcher } from "@clerk/nextjs";
-import { Calendar, ClipboardList, LayoutDashboard, Users } from "lucide-react";
+import { Calendar, ClipboardList, LayoutDashboard, Settings, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -20,6 +20,31 @@ interface AppSidebarProps {
 
 export function AppSidebar({ hasOrg }: AppSidebarProps) {
   const pathname = usePathname();
+
+  function navLink(href: string, label: string, Icon: typeof Settings) {
+    const isActive =
+      href === "/app" ? pathname === "/app" : pathname.startsWith(href);
+    return (
+      <Link
+        key={href}
+        href={href}
+        className={cn(
+          "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+          isActive
+            ? "bg-sidebar-accent text-sidebar-accent-foreground"
+            : "text-sidebar-foreground/70 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
+        )}
+      >
+        <Icon
+          className={cn(
+            "h-4 w-4 shrink-0",
+            isActive ? "text-sidebar-primary" : "text-muted-foreground",
+          )}
+        />
+        {label}
+      </Link>
+    );
+  }
 
   return (
     <aside className="flex flex-col w-64 h-full bg-sidebar border-r border-sidebar-border">
@@ -42,34 +67,13 @@ export function AppSidebar({ hasOrg }: AppSidebarProps) {
 
       {/* Navigation */}
       <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
-        {navItems.map((item) => {
-          const isActive =
-            item.href === "/app"
-              ? pathname === "/app"
-              : pathname.startsWith(item.href);
-
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-                isActive
-                  ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
-              )}
-            >
-              <item.icon
-                className={cn(
-                  "h-4 w-4 shrink-0",
-                  isActive ? "text-sidebar-primary" : "text-muted-foreground",
-                )}
-              />
-              {item.label}
-            </Link>
-          );
-        })}
+        {navItems.map((item) => navLink(item.href, item.label, item.icon))}
       </nav>
+
+      {/* Bottom nav — settings */}
+      <div className="px-3 pb-4 border-t border-sidebar-border pt-3 shrink-0">
+        {navLink("/settings", "Settings", Settings)}
+      </div>
     </aside>
   );
 }

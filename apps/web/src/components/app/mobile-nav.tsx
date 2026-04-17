@@ -8,6 +8,7 @@ import {
   Users,
   Calendar,
   ClipboardList,
+  Settings,
 } from "lucide-react";
 
 const navItems = [
@@ -15,6 +16,7 @@ const navItems = [
   { href: "/patients", label: "Patients", icon: Users },
   { href: "/appointments", label: "Appts", icon: Calendar },
   { href: "/follow-ups", label: "Follow-ups", icon: ClipboardList },
+  { href: "/settings", label: "Settings", icon: Settings },
 ] as const;
 
 export function MobileNav() {
@@ -22,7 +24,7 @@ export function MobileNav() {
 
   return (
     <nav className="md:hidden fixed bottom-0 inset-x-0 z-30 bg-sidebar border-t border-sidebar-border">
-      <div className="grid grid-cols-4 h-16">
+      <div className="grid grid-cols-5 h-16">
         {navItems.map((item) => {
           const isActive =
             item.href === "/app"
