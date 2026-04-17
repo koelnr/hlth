@@ -162,3 +162,22 @@ export async function updateAppointment(
 
   await ref.update(firestoreUpdates);
 }
+
+/**
+ * Hard-delete an appointment record.
+ * Verifies org ownership before deleting.
+ */
+export async function deleteAppointment(
+  id: string,
+  organizationId: string
+): Promise<void> {
+  const db = getAdminFirestore();
+  const ref = db.collection(COLLECTIONS.APPOINTMENTS).doc(id);
+
+  const doc = await ref.get();
+  if (!doc.exists || doc.data()?.organizationId !== organizationId) {
+    throw new Error("Appointment not found");
+  }
+
+  await ref.delete();
+}
