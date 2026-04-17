@@ -134,3 +134,39 @@ export async function updateFollowUp(
 
   await ref.update(firestoreUpdates);
 }
+
+/**
+ * List all follow-ups for an org across all statuses, sorted by dueAt ascending.
+ * Sorted in-memory to avoid composite index requirements.
+ */
+export async function listFollowUpsByOrganization(
+  organizationId: string
+): Promise<FollowUp[]> {
+  const db = getAdminFirestore();
+  const snap = await db
+    .collection(COLLECTIONS.FOLLOW_UPS)
+    .where("organizationId", "==", organizationId)
+    .get();
+
+  const followUps = snap.docs.map(fromDoc);
+  followUps.sort((a, b) => a.dueAt.getTime() - b.dueAt.getTime());
+  return followUps;
+}
+
+/**
+ * Hard-delete a follow-up. Verifies org ownership before deleting.
+ */
+export async function deleteFollowUp(
+  id: string,
+  organizationId: string
+): Promise<void> {
+  const db = getAdminFirestore();
+  const ref = db.collection(COLLECTIONS.FOLLOW_UPS).doc(id);
+
+  const doc = await ref.get();
+  if (!doc.exists || doc.data()?.organizationId !== organizationId) {
+    throw new Error("Follow-up not found");
+  }
+
+  await ref.delete();
+}
