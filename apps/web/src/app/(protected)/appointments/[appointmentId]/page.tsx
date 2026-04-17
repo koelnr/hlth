@@ -1,7 +1,7 @@
 import type { ElementType, ReactNode } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Edit, Clock, User, FileText, Calendar } from "lucide-react";
+import { ArrowLeft, Edit, Clock, User, FileText, Calendar, ClipboardList } from "lucide-react";
 import { requireOrganization } from "@/lib/auth/clerk";
 import { getAppointmentById } from "@/lib/data/appointments";
 import { getPatientById } from "@/lib/data/patients";
@@ -100,11 +100,19 @@ export default async function AppointmentDetailPage({
       title={formatDateTime(appt.scheduledAt)}
       description={patientName}
       actions={
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <Button asChild variant="ghost" size="sm">
             <Link href="/appointments">
               <ArrowLeft className="h-4 w-4 mr-1.5" />
               All appointments
+            </Link>
+          </Button>
+          <Button asChild variant="outline" size="sm">
+            <Link
+              href={`/follow-ups/new?patientId=${appt.patientId}&appointmentId=${appointmentId}`}
+            >
+              <ClipboardList className="h-4 w-4 mr-1.5" />
+              Create follow-up
             </Link>
           </Button>
           <Button asChild variant="outline" size="sm">
