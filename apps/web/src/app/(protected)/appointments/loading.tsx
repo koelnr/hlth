@@ -6,12 +6,11 @@ export default function Loading() {
       title="Appointments"
       description="View and manage scheduled appointments"
     >
-      <div className="space-y-6">
-        <div className="flex gap-3">
-          <div className="h-9 w-28 rounded-lg bg-muted animate-pulse" />
-          <div className="h-9 w-24 rounded-lg bg-muted animate-pulse" />
-        </div>
-        <div className="h-64 rounded-lg bg-muted animate-pulse" />
+      <div className="rounded-lg border border-border overflow-hidden animate-pulse">
+        <div className="h-10 bg-muted/50 border-b border-border" />
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div key={i} className="h-14 bg-muted/20 border-b border-border last:border-0" />
+        ))}
       </div>
     </PageShell>
   );
