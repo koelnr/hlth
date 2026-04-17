@@ -8,22 +8,36 @@ import { requireOrganization } from "@/lib/auth/clerk";
 import { listPatientsForOrg } from "@/lib/data/patients";
 import { listAppointmentsForOrg } from "@/lib/data/appointments";
 import { FollowUpFormFields } from "../_components/follow-up-form-fields";
+import type { PatientOption, AppointmentOption } from "../_components/follow-up-form-fields";
 import { createFollowUpAction } from "./actions";
-import type { Patient, Appointment } from "@/lib/data/models";
+
+function formatApptDate(date: Date): string {
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
 
 export default async function NewFollowUpPage() {
   const viewer = await requireOrganization();
 
-  let patients: Patient[] = [];
-  let appointments: Appointment[] = [];
+  let patients: PatientOption[] = [];
+  let appointmentOptions: AppointmentOption[] = [];
 
   try {
-    [patients, appointments] = await Promise.all([
+    const [patientData, appointmentData] = await Promise.all([
       listPatientsForOrg(viewer.orgId),
       listAppointmentsForOrg(viewer.orgId),
     ]);
-  } catch {
-    // Firebase not configured
+    patients = patientData.map((p) => ({ id: p.id, fullName: p.fullName }));
+    appointmentOptions = appointmentData.map((a) => ({
+      id: a.id,
+      patientId: a.patientId,
+      label: formatApptDate(a.scheduledAt),
+    }));
+  } catch (err) {
+    console.error("[NewFollowUpPage] Failed to load data:", err);
   }
 
   // Default due date to 7 days from today
@@ -76,7 +90,7 @@ export default async function NewFollowUpPage() {
         <form action={createFollowUpAction} className="space-y-5">
           <FollowUpFormFields
             patients={patients}
-            appointments={appointments}
+            appointmentOptions={appointmentOptions}
             defaultValues={{ dueDate: defaultDueDate }}
           />
           <div className="flex items-center justify-end gap-3 pt-2 border-t border-border">

@@ -9,8 +9,9 @@ import { PageShell } from "@/components/app/page-shell";
 import { Button } from "@/components/ui/button";
 import { SubmitButton } from "@/components/app/submit-button";
 import { FollowUpFormFields } from "../../_components/follow-up-form-fields";
+import type { PatientOption, AppointmentOption } from "../../_components/follow-up-form-fields";
 import { updateFollowUpAction } from "../actions";
-import type { Appointment, Patient } from "@/lib/data/models";
+import type { Patient, Appointment } from "@/lib/data/models";
 
 function toDateInput(date: Date): string {
   // dueAt is stored as UTC midnight — use UTC methods to avoid off-by-one
@@ -18,6 +19,14 @@ function toDateInput(date: Date): string {
   const m = String(date.getUTCMonth() + 1).padStart(2, "0");
   const d = String(date.getUTCDate()).padStart(2, "0");
   return `${y}-${m}-${d}`;
+}
+
+function formatApptDate(date: Date): string {
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
 }
 
 export default async function EditFollowUpPage({
@@ -28,13 +37,23 @@ export default async function EditFollowUpPage({
   const { followUpId } = await params;
   const viewer = await requireOrganization();
 
-  const [followUp, patients, appointments] = await Promise.all([
+  const [followUp, patientData, appointmentData] = await Promise.all([
     getFollowUpById(followUpId, viewer.orgId),
     listPatientsForOrg(viewer.orgId).catch((): Patient[] => []),
     listAppointmentsForOrg(viewer.orgId).catch((): Appointment[] => []),
   ]);
 
   if (!followUp) notFound();
+
+  const patients: PatientOption[] = patientData.map((p) => ({
+    id: p.id,
+    fullName: p.fullName,
+  }));
+  const appointmentOptions: AppointmentOption[] = appointmentData.map((a) => ({
+    id: a.id,
+    patientId: a.patientId,
+    label: formatApptDate(a.scheduledAt),
+  }));
 
   const updateAction = updateFollowUpAction.bind(null, followUpId);
 
@@ -55,7 +74,7 @@ export default async function EditFollowUpPage({
         <form action={updateAction} className="space-y-5">
           <FollowUpFormFields
             patients={patients}
-            appointments={appointments}
+            appointmentOptions={appointmentOptions}
             defaultValues={{
               patientId: followUp.patientId,
               dueDate: toDateInput(followUp.dueAt),

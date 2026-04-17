@@ -1,4 +1,7 @@
-import type { Patient, Appointment, FollowUpStatus } from "@/lib/data/models";
+"use client";
+
+import * as React from "react";
+import type { FollowUpStatus } from "@/lib/data/models";
 
 const INPUT_CLASS =
   "w-full px-3 py-2 text-sm border border-input rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring";
@@ -43,12 +46,17 @@ const STATUS_OPTIONS: { value: FollowUpStatus; label: string }[] = [
   { value: "cancelled", label: "Cancelled" },
 ];
 
-function formatApptDate(date: Date): string {
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+// Serializable types — no Date objects, safe to pass across RSC→client boundary.
+export interface PatientOption {
+  id: string;
+  fullName: string;
+}
+
+export interface AppointmentOption {
+  id: string;
+  patientId: string;
+  /** Pre-formatted display label (date + any extra info). */
+  label: string;
 }
 
 export interface FollowUpFormDefaultValues {
@@ -60,8 +68,8 @@ export interface FollowUpFormDefaultValues {
 }
 
 interface FollowUpFormFieldsProps {
-  patients: Patient[];
-  appointments?: Appointment[];
+  patients: PatientOption[];
+  appointmentOptions?: AppointmentOption[];
   defaultValues?: FollowUpFormDefaultValues | null;
   /** Show the status select — true on edit, false on create. */
   showStatus?: boolean;
@@ -69,12 +77,30 @@ interface FollowUpFormFieldsProps {
 
 export function FollowUpFormFields({
   patients,
-  appointments = [],
+  appointmentOptions = [],
   defaultValues,
   showStatus = false,
 }: FollowUpFormFieldsProps) {
-  // Build patient name map for appointment option labels
-  const patientNameMap = new Map(patients.map((p) => [p.id, p.fullName]));
+  const [selectedPatientId, setSelectedPatientId] = React.useState(
+    defaultValues?.patientId ?? ""
+  );
+  const [selectedApptId, setSelectedApptId] = React.useState(
+    defaultValues?.appointmentId ?? ""
+  );
+
+  const visibleAppts = selectedPatientId
+    ? appointmentOptions.filter((a) => a.patientId === selectedPatientId)
+    : appointmentOptions;
+
+  function handlePatientChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    const newPatientId = e.target.value;
+    setSelectedPatientId(newPatientId);
+    // Clear appointment if it doesn't belong to the newly selected patient.
+    const stillValid = appointmentOptions.some(
+      (a) => a.id === selectedApptId && a.patientId === newPatientId
+    );
+    if (!stillValid) setSelectedApptId("");
+  }
 
   return (
     <>
@@ -87,7 +113,8 @@ export function FollowUpFormFields({
           id="patientId"
           name="patientId"
           required
-          defaultValue={defaultValues?.patientId ?? ""}
+          value={selectedPatientId}
+          onChange={handlePatientChange}
           className={INPUT_CLASS}
         >
           <option value="">Select patient…</option>
@@ -108,8 +135,8 @@ export function FollowUpFormFields({
         defaultValue={defaultValues?.dueDate}
       />
 
-      {/* Linked appointment (optional) */}
-      {appointments.length > 0 && (
+      {/* Linked appointment (optional) — filtered to selected patient */}
+      {appointmentOptions.length > 0 && (
         <div className="space-y-1.5">
           <label htmlFor="appointmentId" className="text-sm font-medium text-foreground">
             Linked appointment{" "}
@@ -118,21 +145,26 @@ export function FollowUpFormFields({
           <select
             id="appointmentId"
             name="appointmentId"
-            defaultValue={defaultValues?.appointmentId ?? ""}
+            value={selectedApptId ?? ""}
+            onChange={(e) => setSelectedApptId(e.target.value)}
             className={INPUT_CLASS}
           >
             <option value="">None</option>
-            {appointments.map((appt) => (
+            {visibleAppts.map((appt) => (
               <option key={appt.id} value={appt.id}>
-                {formatApptDate(appt.scheduledAt)}
-                {" — "}
-                {patientNameMap.get(appt.patientId) ?? "Unknown patient"}
+                {appt.label}
               </option>
             ))}
           </select>
-          <p className="text-xs text-muted-foreground">
-            If linked, the appointment must belong to the selected patient.
-          </p>
+          {selectedPatientId && visibleAppts.length === 0 ? (
+            <p className="text-xs text-muted-foreground">
+              No appointments found for this patient.
+            </p>
+          ) : (
+            <p className="text-xs text-muted-foreground">
+              Only appointments for the selected patient are shown.
+            </p>
+          )}
         </div>
       )}
 
