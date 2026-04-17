@@ -42,10 +42,10 @@ export type BaseRecord = {
 export type ClinicProfile = BaseRecord & {
   name: string;
   slug: string;
-  specialty?: string;
-  phone?: string;
-  email?: string;
-  address?: string;
+  specialty: string | null;
+  phone: string | null;
+  email: string | null;
+  address: string | null;
 };
 
 /**
@@ -70,12 +70,12 @@ export type Patient = BaseRecord & {
   /** Denormalized for display. Always `${firstName} ${lastName}`. */
   fullName: string;
   phone: string;
-  email?: string;
+  email: string | null;
   /** ISO date string: YYYY-MM-DD */
-  dateOfBirth?: string;
-  gender?: string;
-  notes?: string;
-  createdByUserId: string;
+  dateOfBirth: string | null;
+  gender: string | null;
+  notes: string | null;
+  createdByUserId: string | null;
 };
 
 export type CreatePatientInput = Omit<
@@ -95,12 +95,12 @@ export type UpdatePatientInput = Partial<
 export type Appointment = BaseRecord & {
   patientId: string;
   /** Clerk user ID of the treating clinician. Optional for now. */
-  clinicianUserId?: string;
+  clinicianUserId: string | null;
   scheduledAt: Date;
   durationMinutes: number;
   status: AppointmentStatus;
-  reason?: string;
-  notes?: string;
+  reason: string | null;
+  notes: string | null;
   createdByUserId: string;
 };
 
@@ -121,10 +121,10 @@ export type UpdateAppointmentInput = Partial<
 export type FollowUp = BaseRecord & {
   patientId: string;
   /** Link back to the appointment that triggered this follow-up. Optional. */
-  appointmentId?: string;
+  appointmentId: string | null;
   dueAt: Date;
   status: FollowUpStatus;
-  note?: string;
+  note: string | null;
   createdByUserId: string;
 };
 
