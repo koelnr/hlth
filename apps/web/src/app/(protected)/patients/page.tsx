@@ -13,7 +13,12 @@ function PatientRow({ patient }: { patient: Patient }) {
   return (
     <tr className="border-b border-border last:border-0 hover:bg-muted/30 transition-colors">
       <td className="px-4 py-3">
-        <p className="text-sm font-medium text-foreground">{patient.fullName}</p>
+        <Link
+          href={`/patients/${patient.id}`}
+          className="text-sm font-medium text-foreground hover:text-primary hover:underline underline-offset-2"
+        >
+          {patient.fullName}
+        </Link>
       </td>
       <td className="px-4 py-3 hidden sm:table-cell">
         <p className="text-sm text-muted-foreground">{patient.email ?? "—"}</p>
@@ -29,6 +34,15 @@ function PatientRow({ patient }: { patient: Patient }) {
             year: "numeric",
           })}
         </p>
+      </td>
+      <td className="px-4 py-3 text-right">
+        <Link
+          href={`/patients/${patient.id}`}
+          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          aria-label={`View ${patient.fullName}`}
+        >
+          →
+        </Link>
       </td>
     </tr>
   );
@@ -104,6 +118,7 @@ export default async function PatientsPage() {
                 <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                   Added
                 </th>
+                <th className="px-4 py-3 w-8" />
               </tr>
             </thead>
             <tbody>
