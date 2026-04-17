@@ -78,6 +78,7 @@ export async function updateAppointmentStatusAction(
   await updateAppointment(appointmentId, viewer.orgId, { status });
   revalidatePath(`/appointments/${appointmentId}`);
   revalidatePath("/appointments");
+  revalidatePath("/app");
 }
 
 export async function deleteAppointmentAction(
